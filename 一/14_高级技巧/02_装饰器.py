@@ -72,20 +72,49 @@ import functools
 # del c.radius
 
 # 计时装饰器
-def timer(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        start_time = time.perf_counter()
-        result = func(*args, **kwargs)
-        end_time = time.perf_counter()
-        print(result)
-        print("%.1f" %(end_time - start_time))
-        print(end_time - start_time)
+# def timer(func):
+#     @functools.wraps(func)
+#     def wrapper(*args, **kwargs):
+#         start_time = time.perf_counter()
+#         result = func(*args, **kwargs)
+#         end_time = time.perf_counter()
+#         print(result)
+#         print("%.1f" %(end_time - start_time))
+#         print(end_time - start_time)
+#
+#     return wrapper
+#
+# @timer
+# def add(x, y) -> int:
+#     return x + y
+#
+# add(1, 2)
 
+# 两个装饰器叠加使用
+def f0(func):
+    print(3)
+    def wrapper(*args, **kwargs):
+        print("第一个装饰器star")
+        func(*args, **kwargs)
+        print("第一个装饰器end")
+
+    print(4)
     return wrapper
 
-@timer
-def add(x, y) -> int:
-    return x + y
 
-add(1, 2)
+def f1(func):
+    print(1)
+    def wrapper(*args, **kwargs):
+        print("第二个装饰器star")
+        func(*args, **kwargs)
+        print("第二个装饰器end")
+
+    print(2)
+    return wrapper
+
+@f0
+@f1
+def f2(num):
+    print(num)
+
+f2(6)
